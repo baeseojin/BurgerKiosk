@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\bulgogi.png" />
+    <None Remove="Images\cheese.png" />
+    <None Remove="Images\cheesestick.png" />
+    <None Remove="Images\cider.png" />
+    <None Remove="Images\cola.png" />
+    <None Remove="Images\double.png" />
+    <None Remove="Images\fries.png" />
+    <None Remove="Images\shrimp.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3537.50" />
+    <PackageReference Include="Supabase" Version="8.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\bulgogi.png" />
+    <Resource Include="Images\cheese.png" />
+    <Resource Include="Images\cheesestick.png" />
+    <Resource Include="Images\cider.png" />
+    <Resource Include="Images\cola.png" />
+    <Resource Include="Images\double.png" />
+    <Resource Include="Images\fries.png" />
+    <Resource Include="Images\shrimp.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Admin\" />
+  </ItemGroup>
+
+</Project>

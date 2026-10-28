@@ -1,0 +1,516 @@
+﻿<UserControl x:Class="BurgerKiosk.Views.PaymentView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="clr-namespace:BurgerKiosk.Behaviors"
+    xmlns:webview="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+    Background="Transparent">
+
+    <UserControl.Resources>
+
+        
+        <Style x:Key="PayMethodButton"
+               TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E9DACC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="MinHeight" Value="140"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Surface"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="16"
+                                Padding="12">
+
+                            <ContentPresenter
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="Surface"
+                                        Property="Background"
+                                        Value="#FFF3E7"/>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+                                <Setter TargetName="Surface"
+                                        Property="Background"
+                                        Value="#FFE0C1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        
+        <Style x:Key="ActionButton"
+               TargetType="Button">
+            <Setter Property="Height" Value="65"/>
+            <Setter Property="FontSize" Value="17"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#D9652E"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Surface"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="14">
+
+                            <ContentPresenter
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="Surface"
+                                        Property="Background"
+                                        Value="#C95724"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+                                <Setter TargetName="Surface"
+                                        Property="Opacity"
+                                        Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid>
+        
+        <Border Background="#A6000000"/>
+
+        
+        <Border Background="#FFFBF7"
+                CornerRadius="20"
+                Margin="8"
+                Padding="16"
+                BorderBrush="#EBDDD1"
+                BorderThickness="1">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                
+                <StackPanel Grid.Row="0"
+                            Margin="0,0,0,16">
+
+                    <TextBlock Text="주문 및 결제"
+                               FontSize="26"
+                               FontWeight="Bold"
+                               Foreground="#332820"
+                               HorizontalAlignment="Center"/>
+
+                    <TextBlock
+                        Text="주문 내역을 확인하고 결제 수단을 선택해 주세요"
+                        TextAlignment="Center"
+                        FontSize="13"
+                        Foreground="#9B8474"
+                        Margin="0,7,0,0"/>
+                </StackPanel>
+
+                
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.1*"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    
+                    
+                    
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        
+                        <Border Grid.Row="0"
+                                Background="#FFF0DE"
+                                CornerRadius="12"
+                                Padding="12"
+                                Margin="0,0,0,15">
+
+                            <StackPanel>
+                                <TextBlock Text="주문 방식"
+                                           FontSize="12"
+                                           Foreground="#8D6B54"/>
+
+                                <TextBlock
+                                    Text="{Binding OrderType}"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Foreground="#C26532"
+                                    Margin="0,5,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        
+                        <Grid Grid.Row="1"
+                              Margin="2,0,2,12">
+
+                            <TextBlock Text="주문 내역"
+                                       FontSize="19"
+                                       FontWeight="Bold"
+                                       Foreground="#332820"/>
+
+                            <TextBlock
+                                Text="{Binding TotalItemCount, StringFormat=총 {0}개}"
+                                FontSize="12"
+                                Foreground="#A18A79"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"/>
+                        </Grid>
+
+                        
+                        <Border Grid.Row="2"
+                                Background="White"
+                                CornerRadius="14"
+                                BorderBrush="#EBDDD1"
+                                BorderThickness="1"
+                                Padding="10"
+                                MinHeight="0">
+
+                            <ScrollViewer
+                                VerticalScrollBarVisibility="Hidden"
+                                HorizontalScrollBarVisibility="Disabled"
+                                PanningMode="VerticalOnly"
+                                PanningDeceleration="0.001"
+                                PanningRatio="1"
+                                CanContentScroll="False"
+                                behaviors:ScrollViewerDragBehavior.EnableMouseDrag="True">
+
+                                <ItemsControl
+                                    ItemsSource="{Binding CartItems}">
+
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+
+                                            
+                                            <Border Padding="4,15"
+                                                    BorderBrush="#EFE7DF"
+                                                    BorderThickness="0,0,0,1">
+
+                                                <StackPanel>
+
+                                                    
+                                                    <TextBlock
+                                                        Text="{Binding Name}"
+                                                        FontSize="16"
+                                                        FontWeight="Bold"
+                                                        Foreground="#332820"
+                                                        TextWrapping="Wrap"/>
+
+                                                    
+                                                    <TextBlock
+                                                        Text="{Binding OptionDescription}"
+                                                        FontSize="12"
+                                                        Foreground="#997F6D"
+                                                        TextWrapping="Wrap"
+                                                        Margin="0,6,0,0"/>
+
+                                                    
+                                                    <Grid Margin="0,10,0,0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <Border Grid.Column="0"
+                                                                Background="#FFF0DE"
+                                                                CornerRadius="7"
+                                                                Padding="8,5">
+
+                                                            <TextBlock
+                                                                Text="{Binding Quantity, StringFormat=수량 {0}개}"
+                                                                FontSize="12"
+                                                                FontWeight="SemiBold"
+                                                                Foreground="#C26532"/>
+                                                        </Border>
+
+                                                        <TextBlock
+                                                            Grid.Column="1"
+                                                            Text="{Binding TotalPrice, StringFormat={}{0:N0}원}"
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Center"
+                                                            FontSize="17"
+                                                            FontWeight="Bold"
+                                                            Foreground="#332820"/>
+                                                    </Grid>
+
+                                                </StackPanel>
+                                            </Border>
+
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Border>
+
+                        
+                        <Border Grid.Row="3"
+                                Background="#FFF0E1"
+                                CornerRadius="14"
+                                Padding="14"
+                                Margin="0,14,0,0">
+
+                            <StackPanel>
+                                <TextBlock Text="총 결제 금액"
+                                           FontSize="14"
+                                           FontWeight="Bold"
+                                           Foreground="#806E61"/>
+
+                                <TextBlock
+                                    Text="{Binding TotalPrice, StringFormat={}{0:N0}원}"
+                                    FontSize="26"
+                                    FontWeight="Bold"
+                                    Foreground="#D9652E"
+                                    HorizontalAlignment="Right"
+                                    Margin="0,7,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    
+                    
+                    
+                    <Grid Grid.Column="2">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        
+                        <Border Grid.Row="0"
+                                Background="#9F2C19"
+                                CornerRadius="12"
+                                Padding="14"
+                                Margin="0,0,0,12">
+
+                            <StackPanel>
+                                <TextBlock Text="결제 수단 선택"
+                                           FontSize="17"
+                                           FontWeight="Bold"
+                                           Foreground="White"/>
+
+                                <TextBlock
+                                    Text="원하는 결제 방법을 선택하세요"
+                                    FontSize="11"
+                                    Foreground="#FFF0E5"
+                                    Margin="0,6,0,0"
+                                    TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+
+                        
+                        <StackPanel Grid.Row="1">
+
+                            
+                            <Button
+                                Margin="0,0,0,12"
+                                Command="{Binding SelectPaymentMethodCommand}"
+                                CommandParameter="신용/체크카드" IsEnabled="{Binding IsCardDemoEnabled}">
+
+                                <Button.Style>
+                                    <Style TargetType="Button"
+                                           BasedOn="{StaticResource PayMethodButton}">
+
+                                        <Style.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding SelectedPaymentMethod}"
+                                                Value="신용/체크카드">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFE6CB"/>
+                                                <Setter Property="BorderBrush"
+                                                        Value="#D9652E"/>
+                                                <Setter Property="BorderThickness"
+                                                        Value="2"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <TextBlock Text="▤"
+                                               FontSize="37"
+                                               Foreground="#D9652E"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Text="{Binding CardPaymentLabel}"
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Foreground="#332820"
+                                               HorizontalAlignment="Center"
+                                               Margin="0,8,0,0"/>
+                                </StackPanel>
+                            </Button>
+
+                            
+                            <Button
+                                Command="{Binding SelectPaymentMethodCommand}"
+                                CommandParameter="간편결제">
+
+                                <Button.Style>
+                                    <Style TargetType="Button"
+                                           BasedOn="{StaticResource PayMethodButton}">
+
+                                        <Style.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding SelectedPaymentMethod}"
+                                                Value="간편결제">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFE6CB"/>
+                                                <Setter Property="BorderBrush"
+                                                        Value="#D9652E"/>
+                                                <Setter Property="BorderThickness"
+                                                        Value="2"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <TextBlock Text="▣"
+                                               FontSize="37"
+                                               Foreground="#D9652E"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Text="간편결제"
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Foreground="#332820"
+                                               HorizontalAlignment="Center"
+                                               Margin="0,8,0,0"/>
+                                </StackPanel>
+                            </Button>
+
+                        </StackPanel>
+
+                        
+                        <StackPanel Grid.Row="2">
+
+                            
+                            <Button
+                                Command="{Binding ConfirmPaymentCommand}">
+
+                                <Button.Style>
+                                    <Style TargetType="Button"
+                                           BasedOn="{StaticResource ActionButton}">
+
+                                        <Style.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding CanConfirmPayment}"
+                                                Value="False">
+
+                                                <Setter Property="IsEnabled"
+                                                        Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <TextBlock
+                                        Text="{Binding TotalPrice, StringFormat={}{0:N0}원}"
+                                        HorizontalAlignment="Center"
+                                        FontSize="17"
+                                        FontWeight="Bold"/>
+
+                                    <TextBlock
+                                        Text="결제하기"
+                                        HorizontalAlignment="Center"
+                                        FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            
+                            <Button
+                                Content="← 이전으로"
+                                Command="{Binding BackToOrderCommand}"
+                                Height="48"
+                                Margin="0,10,0,0"
+                                Background="#F2EBE5"
+                                Foreground="#806E61"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                BorderThickness="0"
+                                Cursor="Hand"/>
+
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
+            </Grid>
+        </Border>
+
+        
+        <Grid x:Name="KakaoPayOverlay" Background="#FFF9F6F1" Panel.ZIndex="100"
+              IsVisibleChanged="KakaoPayOverlay_IsVisibleChanged"
+              Visibility="{Binding IsKakaoPayVisible, Converter={StaticResource BoolToVisibility}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0" Margin="14,16,14,8" LastChildFill="True">
+                <Button Content="✕ 닫기" Command="{Binding CloseKakaoPayCommand}"
+                        DockPanel.Dock="Right" Width="90" Height="43"
+                        Background="#EEE3D8" Foreground="#382C22" FontWeight="Bold"/>
+                <TextBlock Text="카카오페이 결제" FontWeight="Bold" FontSize="21"
+                           VerticalAlignment="Center" Foreground="#382C22"/>
+            </DockPanel>
+            <Border Grid.Row="1" Margin="14,0,14,10" Padding="10" Background="#FFF3DF" CornerRadius="8">
+                <StackPanel>
+                    <TextBlock Text="장바구니 금액으로 카카오페이 결제를 진행합니다." FontSize="12" Foreground="#725223"/>
+                    <TextBlock Text="{Binding KakaoStatusMessage}" TextWrapping="Wrap"
+                               FontSize="13" Foreground="#725223" Margin="0,5,0,0"/>
+                </StackPanel>
+            </Border>
+            <Grid Grid.Row="2" Margin="10,0,10,12">
+                <TextBlock x:Name="CallbackWaitingText" Visibility="Collapsed"
+                           Text="{Binding KakaoStatusMessage}"
+                           FontSize="19" FontWeight="SemiBold"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           TextWrapping="Wrap" TextAlignment="Center"/>
+                <webview:WebView2 x:Name="KakaoWebView"
+                                  NavigationStarting="KakaoWebView_NavigationStarting"
+                                  Source="{Binding KakaoPaymentUri}"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

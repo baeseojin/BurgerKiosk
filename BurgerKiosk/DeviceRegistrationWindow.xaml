@@ -1,0 +1,10 @@
+<Window x:Class="BurgerKiosk.DeviceRegistrationWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Title="BURGER KIOSK · 기기 등록" Width="520" Height="900" MinWidth="450" MinHeight="720"
+ WindowStartupLocation="CenterScreen" Background="#FAF7F2" FontFamily="Malgun Gothic">
+ <Grid>
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+  <Border Background="White" Padding="20,15"><StackPanel><TextBlock Text="BURGER KIOSK" FontSize="25" FontWeight="Bold"/><TextBlock x:Name="StatusText" Text="저장된 기기 정보를 확인합니다." TextWrapping="Wrap" Foreground="#806F60" Margin="0,6,0,0"/></StackPanel></Border>
+  <ContentControl x:Name="RegistrationHost" Grid.Row="1"/>
+ </Grid>
+</Window>

@@ -1,0 +1,207 @@
+﻿<Window x:Class="BurgerKiosk.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:BurgerKiosk.Views"
+        Title="Burger Kiosk"
+        Width="500"
+        Height="900"
+        MinWidth="450"
+        MinHeight="750"
+        WindowStartupLocation="CenterScreen"
+        Background="#FAF7F2">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+
+        <Style x:Key="BottomNavigationButton" TargetType="Button">
+            <Setter Property="FontFamily" Value="Malgun Gothic"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#493C34"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="4,4"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="NavBorder"
+                                CornerRadius="18"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="#E7DED4"
+                                BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="NavBorder" Property="Opacity" Value="0.86"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="NavBorder" Property="Opacity" Value="0.72"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="NavBorder" Property="Opacity" Value="0.40"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="EasyOrderButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FFF2E4"/>
+            <Setter Property="Foreground" Value="#C96A2C"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="EasyBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="#F1D7BC"
+                                BorderThickness="1"
+                                CornerRadius="22"
+                                Padding="14,10">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="EasyBorder" Property="Opacity" Value="0.90"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="EasyBorder" Property="Opacity" Value="0.76"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="84"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="88"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                Background="White"
+                BorderBrush="#EEE5DB"
+                BorderThickness="0,0,0,1"
+                Padding="18,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock Text="BURGER KIOSK"
+                               FontFamily="Malgun Gothic"
+                               FontSize="24"
+                               FontWeight="ExtraBold"
+                               Foreground="#302820"/>
+                    <TextBlock Text="오늘도 맛있는 한 끼, 간편하게 주문하세요"
+                               FontSize="11"
+                               Foreground="#9A8979"
+                               Margin="1,3,0,0"/>
+                </StackPanel>
+
+                <Button Grid.Column="1"
+                        Click="EasyOrderButton_Click"
+                        Style="{StaticResource EasyOrderButtonStyle}"
+                        VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="11"
+                                Height="11"
+                                CornerRadius="6"
+                                Background="#EC6B30"
+                                VerticalAlignment="Center"
+                                Margin="0,0,9,0"/>
+                        <StackPanel>
+                            <TextBlock Text="EASY ORDER"
+                                       FontSize="13"
+                                       FontWeight="Bold"
+                                       Foreground="#C96A2C"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Border>
+
+        <views:HomeView Grid.Row="1"
+                        Visibility="{Binding IsHomeVisible, Converter={StaticResource BoolToVisibility}}"/>
+        <views:OrderView Grid.Row="1"
+                         Visibility="{Binding IsOrderVisible, Converter={StaticResource BoolToVisibility}}"/>
+        <views:OptionView Grid.Row="1" Panel.ZIndex="10"
+                          Visibility="{Binding IsOptionVisible, Converter={StaticResource BoolToVisibility}}"/>
+        <views:CallStaffView Grid.Row="1" Panel.ZIndex="150"
+                             Visibility="{Binding IsStaffCallVisible, Converter={StaticResource BoolToVisibility}}"/>
+        <views:PaymentView Grid.Row="1" Panel.ZIndex="25"
+                           Visibility="{Binding IsPaymentVisible, Converter={StaticResource BoolToVisibility}}"/>
+        <views:LoyaltyView Grid.Row="1" Panel.ZIndex="40" Visibility="{Binding IsLoyaltyVisible, Converter={StaticResource BoolToVisibility}}"/>
+        <views:PaymentCompleteView Grid.Row="1" Panel.ZIndex="30"
+                                   Visibility="{Binding IsPaymentCompleteVisible, Converter={StaticResource BoolToVisibility}}"/>
+
+        <Border Grid.Row="2"
+                Background="White"
+                BorderBrush="#EEE5DB"
+                BorderThickness="0,1,0,0"
+                Padding="8,8,8,10"
+                Panel.ZIndex="50">
+            <UniformGrid Rows="1" Columns="4">
+                <Button Style="{StaticResource BottomNavigationButton}"
+                        Background="#F5F2ED"
+                        Command="{Binding GoHomeCommand}">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <TextBlock Text="⌂" FontSize="22" HorizontalAlignment="Center"/>
+                        <TextBlock Text="홈" FontSize="12" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource BottomNavigationButton}"
+                        Background="#FFF0DF"
+                        Command="{Binding CallStaffCommand}">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <TextBlock Text="♧" FontSize="20" HorizontalAlignment="Center"/>
+                        <TextBlock Text="직원 호출" FontSize="12" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="ZoomButton"
+                        Style="{StaticResource BottomNavigationButton}"
+                        Background="#F1F1FA"
+                        ToolTip="글씨 확대"
+                        Click="ZoomButton_Click">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <TextBlock Text="⌕" FontSize="23" HorizontalAlignment="Center"/>
+                        <TextBlock Text="돋보기" FontSize="12" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="TalkButton"
+                        Style="{StaticResource BottomNavigationButton}"
+                        Background="#EC6B30"
+                        Foreground="White"
+                        ToolTip="누르고 있는 동안 말해주세요"
+                        PreviewMouseLeftButtonDown="TalkButton_PreviewMouseLeftButtonDown"
+                        PreviewMouseLeftButtonUp="TalkButton_PreviewMouseLeftButtonUp"
+                        PreviewTouchDown="TalkButton_PreviewTouchDown"
+                        PreviewTouchUp="TalkButton_PreviewTouchUp"
+                        MouseLeave="TalkButton_MouseLeave">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <TextBlock Text="🎤" FontSize="18" HorizontalAlignment="Center"/>
+                        <TextBlock Text="AI 상담" FontSize="12" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </UniformGrid>
+        </Border>
+        
+        <TextBlock Grid.Row="1" Panel.ZIndex="160" Text="{Binding IdleWarning}"
+                   Background="#FFF3DF" Foreground="#614322" Padding="0" FontSize="16"
+                   HorizontalAlignment="Center" VerticalAlignment="Top" TextWrapping="Wrap"/>
+        <Grid x:Name="AdminHost" Grid.RowSpan="3" Panel.ZIndex="200"
+              Background="#FAF7F2" Visibility="Collapsed">
+            <ContentControl x:Name="AdminContent" HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"/>
+        </Grid>
+    </Grid>
+</Window>

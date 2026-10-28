@@ -1,0 +1,82 @@
+<UserControl x:Class="BurgerKiosk.AdminLoginWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Background="#FAF7F2" FontFamily="Malgun Gothic" MaxWidth="680"
+ Loaded="LoginView_Loaded" Unloaded="LoginView_Unloaded">
+ <UserControl.Resources>
+  <Style x:Key="LoginActionButton" TargetType="Button">
+   <Setter Property="MinHeight" Value="46"/><Setter Property="FontSize" Value="15"/>
+   <Setter Property="FontWeight" Value="SemiBold"/><Setter Property="BorderThickness" Value="0"/>
+   <Setter Property="Cursor" Value="Hand"/><Setter Property="Background" Value="#F3EEE8"/>
+   <Setter Property="Foreground" Value="#4E433C"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+    <Border x:Name="Surface" Background="{TemplateBinding Background}" CornerRadius="10" Padding="4">
+     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Border>
+    <ControlTemplate.Triggers>
+     <Trigger Property="IsPressed" Value="True"><Setter TargetName="Surface" Property="Opacity" Value="0.65"/></Trigger>
+     <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Surface" Property="Opacity" Value="0.4"/></Trigger>
+    </ControlTemplate.Triggers>
+   </ControlTemplate></Setter.Value></Setter>
+  </Style>
+  <Style x:Key="KeyboardKey" TargetType="Button" BasedOn="{StaticResource LoginActionButton}">
+   <Setter Property="Height" Value="46"/><Setter Property="MinHeight" Value="46"/>
+   <Setter Property="Margin" Value="2"/><Setter Property="FontSize" Value="16"/>
+   <Setter Property="Focusable" Value="False"/><Setter Property="IsTabStop" Value="False"/>
+   <Setter Property="Stylus.IsPressAndHoldEnabled" Value="False"/>
+  </Style>
+ </UserControl.Resources>
+ <Grid Margin="12">
+  <Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <Border x:Name="LoginCard" Grid.Row="0" Background="White" CornerRadius="20" Padding="20" BorderBrush="#EDE3D8" BorderThickness="1">
+   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel>
+     <TextBlock x:Name="LoginHeading" Text="관리자 로그인" FontSize="25" FontWeight="Bold" Foreground="#302820"/>
+     <TextBlock x:Name="LoginDescription" Text="입력란을 터치한 뒤 아래 키보드를 사용하세요." FontSize="13" Foreground="#85776B" Margin="0,6,0,16" TextWrapping="Wrap"/>
+     <TextBlock Text="이메일" FontWeight="SemiBold" Foreground="#4E433C"/>
+     <TextBox x:Name="EmailBox" Height="46" FontSize="16" Padding="10,6" MaxLength="254"
+      VerticalContentAlignment="Center" Margin="0,6,0,12" Background="#FFFDFC" BorderBrush="#E9DFD5"
+      GotKeyboardFocus="Input_GotKeyboardFocus" InputMethod.IsInputMethodEnabled="False"/>
+     <TextBlock Text="비밀번호" FontWeight="SemiBold" Foreground="#4E433C"/>
+     <PasswordBox x:Name="PasswordInput" Height="46" FontSize="16" Padding="10,6" MaxLength="256"
+      VerticalContentAlignment="Center" Margin="0,6,0,4" Background="#FFFDFC" BorderBrush="#E9DFD5"
+      GotKeyboardFocus="Input_GotKeyboardFocus"/>
+     <TextBlock x:Name="ErrorText" Foreground="#C83E38" TextWrapping="Wrap" MinHeight="24" FontSize="12" Margin="0,4,0,8"/>
+     <Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="10"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+      <Button x:Name="LoginButton" Content="관리자 로그인" Click="LoginButton_Click" IsDefault="True"
+       Style="{StaticResource LoginActionButton}" Background="#EC6B30" Foreground="White"/>
+      <Button x:Name="CancelButton" Grid.Column="2" Content="취소" Click="CancelButton_Click" Style="{StaticResource LoginActionButton}"/>
+     </Grid>
+    </StackPanel>
+   </ScrollViewer>
+  </Border>
+  <Border Grid.Row="1" Margin="0,10,0,0" Background="White" CornerRadius="16" Padding="8" BorderBrush="#EDE3D8" BorderThickness="1">
+   <StackPanel x:Name="KeyboardPanel">
+    <Grid Margin="4,0,4,6">
+     <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+     <TextBlock x:Name="KeyboardTargetText" Text="이메일 입력 중" FontSize="13" Foreground="#806F60" VerticalAlignment="Center"/>
+     <Button Grid.Column="1" Content="이메일" Tag="EMAIL" Click="KeyboardAction_Click" Style="{StaticResource KeyboardKey}" FontSize="12" Padding="7,0"/>
+     <Button Grid.Column="2" Content="비밀번호" Tag="PASSWORD" Click="KeyboardAction_Click" Style="{StaticResource KeyboardKey}" FontSize="12" Padding="7,0"/>
+    </Grid>
+    <StackPanel x:Name="KeyboardRows"/>
+    <UniformGrid Columns="7" Margin="0,2,0,0">
+     <Button Content="@" Tag="@" Click="QuickText_Click" Style="{StaticResource KeyboardKey}"/>
+     <Button Content="." Tag="." Click="QuickText_Click" Style="{StaticResource KeyboardKey}"/>
+     <Button Content=".com" Tag=".com" Click="QuickText_Click" Style="{StaticResource KeyboardKey}" FontSize="12"/>
+     <Button Content="공백" Tag="SPACE" Click="KeyboardAction_Click" Style="{StaticResource KeyboardKey}" FontSize="12"/>
+     <Button Content="←" Tag="LEFT" Click="KeyboardAction_Click" Style="{StaticResource KeyboardKey}"/>
+     <Button Content="→" Tag="RIGHT" Click="KeyboardAction_Click" Style="{StaticResource KeyboardKey}"/>
+     <Button Content="지우기" Tag="CLEAR" Click="KeyboardAction_Click" Style="{StaticResource KeyboardKey}" FontSize="12"/>
+    </UniformGrid>
+    <UniformGrid Columns="5" Margin="0,2,0,0">
+     <Button x:Name="UpperButton" Content="대문자" Tag="UPPER" Click="KeyboardAction_Click" Style="{StaticResource KeyboardKey}" FontSize="13"/>
+     <Button x:Name="SymbolButton" Content="특수문자" Tag="SYMBOL" Click="KeyboardAction_Click" Style="{StaticResource KeyboardKey}" FontSize="13"/>
+     <Button Content="⌫" Tag="BACK" Click="KeyboardAction_Click" Style="{StaticResource KeyboardKey}"/>
+     <Button x:Name="KeyboardCancelButton" Content="취소" Click="CancelButton_Click" Style="{StaticResource KeyboardKey}" FontSize="13"/>
+     <Button x:Name="NextButton" Content="다음" Tag="NEXT" Click="KeyboardAction_Click" Style="{StaticResource KeyboardKey}" FontSize="13" Background="#EC6B30" Foreground="White"/>
+    </UniformGrid>
+   </StackPanel>
+  </Border>
+ </Grid>
+</UserControl>

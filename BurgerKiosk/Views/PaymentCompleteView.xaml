@@ -1,0 +1,166 @@
+<UserControl x:Class="BurgerKiosk.Views.PaymentCompleteView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+
+    <Grid>
+
+        
+        <Border Background="#99000000"/>
+
+        
+        <Border Background="White"
+                Width="400"
+                CornerRadius="16"
+                Padding="25"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+            <StackPanel>
+
+                
+                <TextBlock Text="✓"
+                           FontSize="60"
+                           Foreground="#2E9A56"
+                           TextAlignment="Center"
+                           Margin="0,0,0,10"/>
+
+                
+                <TextBlock FontSize="30"
+                           FontWeight="Bold"
+                           TextAlignment="Center"
+                           Margin="0,0,0,12">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="결제 완료"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsKakaoPaymentCompleted}" Value="True">
+                                    <Setter Property="Text" Value="카카오페이 결제 완료"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <TextBlock FontSize="16"
+                           Foreground="#666666"
+                           TextAlignment="Center"
+                           Margin="0,0,0,25">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="카드 결제가 완료되었습니다."/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsKakaoPaymentCompleted}" Value="True">
+                                    <Setter Property="Text" Value="카카오페이 결제가 승인되었습니다."/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                
+                <Border Background="#FFF7ED"
+                        CornerRadius="12"
+                        Padding="15"
+                        Margin="0,0,0,22">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsKakaoPaymentCompleted}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+
+                    <StackPanel HorizontalAlignment="Center">
+
+                        <TextBlock Text="주문번호"
+                                   FontSize="16"
+                                   Foreground="#777777"
+                                   TextAlignment="Center"
+                                   Margin="0,0,0,8"/>
+
+                        <TextBlock Text="{Binding CompletedOrderId}"
+                                   FontSize="48"
+                                   FontWeight="Bold"
+                                   Foreground="#B66A20"
+                                   TextAlignment="Center"/>
+
+                    </StackPanel>
+
+                </Border>
+
+                
+                <TextBlock FontSize="16"
+                           Foreground="#777777"
+                           TextAlignment="Center"
+                           Margin="0,0,0,8">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="확인을 누르면 처음 화면으로 돌아갑니다."/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsKakaoPaymentCompleted}" Value="True">
+                                    <Setter Property="Text" Value="잠시 후 처음 화면으로 돌아갑니다."/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <TextBlock Text="{Binding CompletedPaymentAmount,
+                                  StringFormat={}{0:N0}원}"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="#B66A20"
+                           TextAlignment="Center"
+                           Margin="0,0,0,20"/>
+
+                
+                <Border Height="1"
+                        Background="#EEEEEE"
+                        Margin="0,0,0,20"/>
+
+                
+                <TextBlock FontSize="15"
+                           Foreground="#555555"
+                           TextAlignment="Center"
+                           Margin="0,0,0,8"/>
+
+                <TextBlock FontSize="12"
+                           Foreground="Gray"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,25">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="실제 카드 결제가 발생하지 않는 데모 화면입니다."/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsKakaoPaymentCompleted}" Value="True">
+                                    <Setter Property="Text" Value="카카오페이 승인 금액입니다."/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                
+                <TextBlock Text="{Binding CompletedLoyaltyMessage}" TextAlignment="Center" Foreground="#B66A20" TextWrapping="Wrap" Margin="0,0,0,12"/>
+                <Button Content="확인"
+                        Height="65"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Background="#B66A20"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Command="{Binding CompletePaymentCommand}"/>
+
+            </StackPanel>
+
+        </Border>
+
+    </Grid>
+
+</UserControl>

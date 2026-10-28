@@ -1,0 +1,42 @@
+<UserControl x:Class="BurgerKiosk.Views.LoyaltyView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" IsEnabled="{Binding CanUseLoyalty}">
+ <UserControl.Resources>
+  <Style TargetType="Button"><Setter Property="MinHeight" Value="50"/><Setter Property="FontSize" Value="18"/><Setter Property="Margin" Value="4"/><Setter Property="Background" Value="#F3EEE8"/><Setter Property="Foreground" Value="#493C34"/><Setter Property="BorderThickness" Value="0"/><Setter Property="Cursor" Value="Hand"/></Style>
+ </UserControl.Resources>
+ <Grid Background="#99000000">
+  <Border Background="White" CornerRadius="20" Padding="20" Margin="14" MaxWidth="470" VerticalAlignment="Center">
+   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="660">
+    <StackPanel>
+     <TextBlock Text="포인트 적립" FontSize="28" FontWeight="Bold" TextAlignment="Center" Margin="0,0,0,16"/>
+     <StackPanel Visibility="{Binding IsLoyaltyChoice, Converter={StaticResource BoolToVisibility}}">
+      <TextBlock Text="포인트를 적립하시겠습니까?" FontSize="20" TextAlignment="Center" Margin="0,0,0,16"/>
+      <TextBlock Text="결제 금액의 1%를 적립해 드립니다." TextAlignment="Center" Foreground="#88786B" Margin="0,0,0,20"/>
+      <Button Content="적립하기" Command="{Binding ChooseLoyaltyCommand}" Background="#EC6B30" Foreground="White"/>
+      <Button Content="적립 안 함 · 결제 진행" Command="{Binding SkipLoyaltyCommand}"/>
+     </StackPanel>
+     <StackPanel Visibility="{Binding IsLoyaltyPhone, Converter={StaticResource BoolToVisibility}}">
+      <TextBlock Text="휴대전화번호를 입력해 주세요." FontSize="18" TextAlignment="Center"/>
+      <TextBlock Text="미등록 번호는 회원으로 자동 등록됩니다." FontSize="13" TextAlignment="Center" Foreground="#88786B" Margin="0,6,0,12"/>
+      <Border BorderBrush="#E4D9CD" BorderThickness="1" Padding="12" Margin="0,0,0,12"><TextBlock Text="{Binding LoyaltyPhoneDisplay}" FontSize="28" TextAlignment="Center" MinHeight="36"/></Border>
+      <UniformGrid Columns="3">
+       <Button Content="1" Command="{Binding LoyaltyPhoneKeyCommand}" CommandParameter="1"/><Button Content="2" Command="{Binding LoyaltyPhoneKeyCommand}" CommandParameter="2"/><Button Content="3" Command="{Binding LoyaltyPhoneKeyCommand}" CommandParameter="3"/>
+       <Button Content="4" Command="{Binding LoyaltyPhoneKeyCommand}" CommandParameter="4"/><Button Content="5" Command="{Binding LoyaltyPhoneKeyCommand}" CommandParameter="5"/><Button Content="6" Command="{Binding LoyaltyPhoneKeyCommand}" CommandParameter="6"/>
+       <Button Content="7" Command="{Binding LoyaltyPhoneKeyCommand}" CommandParameter="7"/><Button Content="8" Command="{Binding LoyaltyPhoneKeyCommand}" CommandParameter="8"/><Button Content="9" Command="{Binding LoyaltyPhoneKeyCommand}" CommandParameter="9"/>
+       <Button Content="전체 삭제" FontSize="15" Command="{Binding LoyaltyPhoneKeyCommand}" CommandParameter="CLEAR"/><Button Content="0" Command="{Binding LoyaltyPhoneKeyCommand}" CommandParameter="0"/><Button Content="⌫" Command="{Binding LoyaltyPhoneKeyCommand}" CommandParameter="BACK"/>
+      </UniformGrid>
+      <Button Content="회원 확인" Command="{Binding LookupLoyaltyCommand}" Background="#EC6B30" Foreground="White" Margin="4,12,4,4"/>
+     </StackPanel>
+     <StackPanel Visibility="{Binding IsLoyaltySummary, Converter={StaticResource BoolToVisibility}}">
+      <TextBlock Text="{Binding LoyaltyMemberNotice}" TextAlignment="Center" TextWrapping="Wrap" FontSize="16" Margin="0,0,0,18"/>
+      <TextBlock Text="보유 포인트" TextAlignment="Center" Foreground="#88786B" FontSize="15"/>
+      <Border Background="#FFF3E7" Padding="12" CornerRadius="12" Margin="0,10,0,18"><TextBlock Text="{Binding LoyaltyBalanceText}" FontSize="23" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"/></Border>
+      <TextBlock Text="{Binding LoyaltyExpectedText}" FontSize="18" TextAlignment="Center" Foreground="#B65D29" Margin="0,0,0,8"/>
+      <TextBlock Text="결제가 완료되면 포인트가 적립됩니다." FontSize="13" TextAlignment="Center" Foreground="#88786B" Margin="0,0,0,18"/>
+      <Button Content="확인 후 결제" Command="{Binding ContinueLoyaltyCommand}" Background="#EC6B30" Foreground="White"/>
+     </StackPanel>
+     <TextBlock Text="{Binding LoyaltyMessage}" Foreground="#B33A32" TextAlignment="Center" TextWrapping="Wrap" Margin="0,8,0,0"/>
+     <Button Content="이전으로" Command="{Binding CancelLoyaltyCommand}" FontSize="15" MinHeight="42" Margin="4,10,4,0"/>
+    </StackPanel>
+   </ScrollViewer>
+  </Border>
+ </Grid>
+</UserControl>
